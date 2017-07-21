@@ -3,9 +3,9 @@
 FROM ubuntu:14.04.3
 MAINTAINER lowid <lowid@outlook.com>
 RUN apt-get update && \
-    apt-get install -y python-pip libnet1 libnet1-dev libpcap0.8 libpcap0.8-dev git
+    apt-get install -y python-pip libnet1 libnet1-dev libpcap0.8 libpcap0.8-dev git libsodium-dev
 
-RUN pip install shadowsocks==2.8.2
+RUN pip install shadowsocks
 
 RUN git clone https://github.com/snooda/net-speeder.git net-speeder
 WORKDIR net-speeder
