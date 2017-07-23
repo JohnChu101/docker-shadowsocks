@@ -26,7 +26,9 @@ RUN \
     ./configure && \
     make && make check && \
     make install && \
-    mv src/libsodium /usr/local/ && \
+	echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+	ldconfig
+#    mv src/libsodium /usr/local/ && \
     rm -Rf /tmpbuild/
 
 # Configure container to run as an executable
