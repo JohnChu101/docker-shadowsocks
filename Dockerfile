@@ -16,11 +16,18 @@ COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/net_speeder
 
-ADD https://download.libsodium.org/libsodium/releases/libsodium-1.0.11.tar.gz home/
-RUN cd home && tar xf libsodium-1.0.11.tar.gz  && rm libsodium-1.0.11.tar.gz && \
-    cd libsodium-1.0.11 && ./configure &&  make && make check && make install
-RUN ldconfig
-RUN mv src/libsodium /usr/local/ && \
+
+RUN \
+    mkdir -p /tmpbuild/libsodium && \
+    cd /tmpbuild/libsodium && \
+    curl -L https://download.libsodium.org/libsodium/releases/libsodium-1.0.11.tar.gz -o libsodium-1.0.11.tar.gz && \
+    tar xfvz libsodium-1.0.11.tar.gz && \
+    cd /tmpbuild/libsodium/libsodium-1.0.11/ && \
+    ./configure && \
+    make && make check && \
+    make install && \
+    mv src/libsodium /usr/local/ && \
+    rm -Rf /tmpbuild/
 
 # Configure container to run as an executable
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
