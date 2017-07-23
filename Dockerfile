@@ -20,6 +20,7 @@ ADD https://download.libsodium.org/libsodium/releases/libsodium-1.0.11.tar.gz ho
 RUN cd home && tar xf libsodium-1.0.11.tar.gz  && rm libsodium-1.0.11.tar.gz && \
     cd libsodium-1.0.11 && ./configure &&  make && make check && make install
 RUN ldconfig
+    mv src/libsodium /usr/local/ && \
 
 # Configure container to run as an executable
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
