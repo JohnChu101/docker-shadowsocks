@@ -20,7 +20,7 @@ RUN chmod +x /usr/local/bin/net_speeder
 #install libsodium support chacha20
 RUN wget --no-check-certificate -O libsodium-1.0.12.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.12/libsodium-1.0.12.tar.gz &&\
     tar zxf libsodium-1.0.12.tar.gz && rm -rf libsodium-1.0.12.tar.gz
-WORKDIR /libsodium-1.0.12
+WORKDIR libsodium-1.0.12
 RUN ./configure && make && make install
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf
 RUN ldconfig
