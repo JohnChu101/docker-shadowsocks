@@ -17,19 +17,13 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/net_speeder
 
 
-RUN \
-    mkdir -p /tmpbuild/libsodium && \
-    cd /tmpbuild/libsodium && \
-    curl -L https://download.libsodium.org/libsodium/releases/libsodium-1.0.11.tar.gz -o libsodium-1.0.11.tar.gz && \
-    tar xfvz libsodium-1.0.11.tar.gz && \
-    cd /tmpbuild/libsodium/libsodium-1.0.11/ && \
-    ./configure && \
-    make && make check && \
-    make install && \
-	echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
-	ldconfig
-#    mv src/libsodium /usr/local/ && \
-    rm -Rf /tmpbuild/
+#install libsodium support chacha20
+RUN wget --no-check-certificate -O libsodium-1.0.12.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.12/libsodium-1.0.12.tar.gz &&\
+    tar zxf libsodium-1.0.12.tar.gz && rm -rf libsodium-1.0.12.tar.gz
+WORKDIR /libsodium-1.0.12
+RUN ./configure && make && make install
+RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf
+RUN ldconfig
 
 # Configure container to run as an executable
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
